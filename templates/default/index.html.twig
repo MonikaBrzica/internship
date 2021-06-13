@@ -1,0 +1,110 @@
+{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Welcome {{ app.user.username |capitalize }}{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block logo_large %}
+    <div class="row"> <img src="{{ asset('images/logo.png') }}" class="logo"> </div>
+{% endblock %}
+
+{% block navbar_user %}
+    <div class="navbar-custom-menu" style="margin-top: 12px; margin-right: 25px; color: white;" >
+        <ul class="nav navbar-nav">
+            <span class="glyphicon glyphicon-user"></span> {{ app.user.username |capitalize }} &nbsp; &nbsp;
+            <a href="{{ path('app_logout') }}" style="color: white;">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+            </a>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block sidebar_nav %}
+    <h2 style="color: white; margin-left: 50px;">Settings</h2>
+    <h2 style="color: white; margin-left: 50px;"><a href="{{ path('contact') }}">Contact</a></h2>
+    <h2 style="color: white; margin-left: 50px;"><a href="{{ path('adding_user') }}">Add User</a></h2>
+    <h2 style="color: white; margin-left: 50px;"><a href="{{ path('change') }}">Change password</a></h2>
+{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-6">
+
+            {# ... infobox widget, colored icon ... #}
+            {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+                'color' : 'aqua',
+                'icon'  : 'fas fa-comments',
+            } %}
+                {% block box_text %}Number of job applications{% endblock %}
+                {% block box_number %}3{% endblock %}
+                {% block progress_description %}{% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" id="cvs">
+            {# ... box widget with some options ... #}
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' with {
+                'boxtype' : 'gray',
+                'solid' : 0,
+                'collapsible' : 'widget-box.collapse'|trans ~ '... ',
+                'removable' : 'widget-box.remove'|trans ~ '...',
+            } %}
+
+                {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+                {% block box_title %}Job applications{% endblock %}
+                {% block box_body %}
+                <button onclick="showActive()" class="btn btn-info active-article">Active</button>
+                <button onclick="showArchived()" class="btn btn-info archived-article">Archived</button>
+                <div class="callout callout-default" id="active" style="display: block;">
+                    <div class="callout callout-default">
+                        {% for cv in cvs %}
+                            {% if cv.getarchived() == 0 %}
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-secondary">
+                                        <strong>{{ cv.firstname }} {{ cv.lastname }}</strong>
+                                        <p>{{ cv.email }} </p>
+                                        <p>{{ cv.message }} </p>
+                                        <div>
+                                            <a href="#" class="btn btn-danger delete-article" data-id="{{ cv.getId() }}">Delete</a>
+                                            <a href="#" class="btn btn-warning archive-article" data-id="{{ cv.getId() }}">Archive</a>
+                                            <a href="{{ path('download', {'id':cv.getId()}) }}" class="btn btn-success" >Download</a>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="callout callout-default" id="archived" style="display: none;">
+                    <div class="callout callout-default">
+                        {% for cv in cvs %}
+                            {% if cv.getarchived() == 1 %}
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-secondary">
+                                        <strong>{{ cv.firstname }} {{ cv.lastname }}</strong>
+                                        <p>{{ cv.email }} </p>
+                                        <p>{{ cv.message }} </p>
+                                        <div>
+                                            <a href="#" class="btn btn-danger delete-article" data-id="{{ cv.getId() }}">Delete</a>
+                                            <a href="#" class="btn btn-warning activate-article" data-id="{{ cv.getId() }}">Activate</a>
+                                            <a href="{{ path('download', {'id':cv.getId()}) }}" class="btn btn-success" >Download</a>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{asset('assets/js/main.js')}}"></script>
+{% endblock %}

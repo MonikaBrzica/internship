@@ -1,0 +1,33 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        our_db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+        users_in_memory: { memory: null }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+            anonymous: lazy
+            pattern: ^/
+            http_basic: ~
+            provider: our_db_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                target: login
+            access_denied_handler: App\Security\AccessDeniedHandler
+    access_control:
+        - { path: ^/addUser, roles: ROLE_ADMIN}

@@ -1,0 +1,64 @@
+{% block head %}
+
+    <meta charset="UTF-8">
+    <title>{% block title %}Job Application{% endblock %}</title>
+    {% block stylesheets %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    {% endblock %}
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="card border-0">
+        <div class="row job_app">
+            <div class="col-lg-6">
+                    <div class="card1 pb-5">
+                        <div class="row"> <img src="{{ asset('images/logo.png') }}" class="logo"> </div>
+                        <div class="card2 card border-0 px-4 py-5">
+                            <p>If you want to work in a stimulating, dynamic atmosphere, if you want to continuously make progress and improve your skills – please fill out our application form!</p>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-6">
+                <form id="formElem" action="{{ path('job') }}">
+                    <div class="card2 card border-0 px-4 py-5">
+                        <h3 class="panel-title">Job application</h3><br>
+                        <div class="row px-3">
+                            <label for="first_name">FIRST NAME</label>
+                            <input type="text" name="first_name" id="first_name" class="form-control">
+                        </div>
+                        <div class="row px-3">
+                            <label for="last_name">LAST NAME</label>
+                            <input type="text" name="last_name" id="last_name" class="form-control">
+                        </div>
+                        <div class="row px-3">
+                            <label for="email">EMAIL</label>
+                            <input type="email" name="email" id="email" class="form-control">
+                        </div>
+                        <div class="row px-3">
+                            <label for="message">MESSAGE</label>
+                            <textarea name="message" id="message" class="form-control"></textarea>
+                        </div>
+                        <div class="row px-3">
+                            <label for="fileName">UPLOAD YOUR CV<br>
+                            <input type="file" id="fileName" name="fileName" multiple required>
+                        </label>
+                    </div><br>
+                    <div>
+                        <input type="submit" class="btn btn-blue text-center" value="SEND">
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{asset('assets/js/post.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/js/supports.js')}}"></script>
+{% endblock %}

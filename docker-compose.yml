@@ -1,0 +1,52 @@
+version: "3.1"
+services:
+
+  php:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    container_name: ${PROJECT_NAME}-php
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./.docker/php/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+    ports:
+      - "9000:9000"
+
+  nginx:
+    image: nginx:alpine
+    container_name: ${PROJECT_NAME}-nginx
+    working_dir: /application
+    depends_on:
+      - php
+    volumes:
+      - .:/application
+      - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/mysql/data
+    ports:
+      - "80:80"
+
+  mysql:
+    image: mysql:8.0
+    container_name: ${PROJECT_NAME}-mysql
+    working_dir: /mysql/data
+    volumes:
+      - .:/application
+      - mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      #in case of changing user from 'root' to something else
+      #make sure to add - MYSQL_USER=${MYSQL_USER} env variable under
+    ports:
+      - "3306:3306"
+
+  mailcatcher:
+    restart: on-failure:10
+    image: dockage/mailcatcher:0.7.1
+    ports:
+    - "1080:1080"
+    - "1025:1025"
+
+volumes:
+  mysql-data:

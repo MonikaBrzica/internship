@@ -1,0 +1,49 @@
+{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Welcome {{ app.user.username |capitalize }}{% endblock %}
+{% block page_subtitle %}{% endblock %}
+
+{% block logo_large %}
+    <div class="row"> <img src="{{ asset('images/logo.png') }}" class="logo"> </div>
+{% endblock %}
+
+{% block navbar_user %}
+    <div class="navbar-custom-menu" style="margin-top: 12px; margin-right: 25px; color: white;" >
+        <ul class="nav navbar-nav">
+            <span class="glyphicon glyphicon-user"></span> {{ app.user.username |capitalize }} &nbsp; &nbsp;
+            <a href="{{ path('app_logout') }}" style="color: white;">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+            </a>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block sidebar_nav %}
+    <h2 style="color: white; margin-left: 50px;"><a href="{{ path('homepage') }}">Dashboard</a></h2>
+{% endblock %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-6" id="cvs">
+            {# ... box widget with some options ... #}
+            {% embed '@AdminLTE/Widgets/box-widget.html.twig' with {
+                'boxtype' : 'gray',
+                'solid' : 0
+            } %}
+
+                {% import '@AdminLTE/Macros/buttons.html.twig'  as btn %}
+                {% block box_title %}Add User{% endblock %}
+                {% block box_body %}
+                    {{ form_start(form) }}
+                    {{ form_row(form.username) }}
+                    {{ form_row(form.email) }}
+
+                    <button type="submit" class="btn btn-info">Add User!</button>
+                    {{ form_end(form) }}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
+
