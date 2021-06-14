@@ -29,9 +29,14 @@ From that folder you can manage and use local development environment.
   <ul>
     <li><b>docker-compose build</b></li>
     <li><b>docker-compose up</b></li>
-  </ul>
+  </ul><br>
 4. Navigate to http://localhost/
 5. Hopefully it works ;)
+6. <ul>
+  <li>username: admin</li>
+  <li>password: 1.admin.1</li>
+  </ul><br>
+7. Navigate to http://localhost/form for job application.
 
 ## Some of the make commands for easier usage of environment:
 
