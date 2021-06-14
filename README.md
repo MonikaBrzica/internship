@@ -26,10 +26,10 @@ From that folder you can manage and use local development environment.
 1. Clone project 
 2. Rename .env.example to .env and configure as you wish
 3. From root directory execute:
-  <ul>
-    <li><b>docker-compose build</b></li>
-    <li><b>docker-compose up</b></li>
-  </ul><br>
+<ul>
+  <li><b>docker-compose build</b></li>
+  <li><b>docker-compose up</b></li>
+</ul><br>
 4. Navigate to http://localhost/
 5. Hopefully it works ;)
 6. <ul>
